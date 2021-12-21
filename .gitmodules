@@ -1,0 +1,54 @@
+[submodule "pack/syntax/start/liquid"]
+	path = pack/syntax/start/liquid
+	url = https://github.com/tpope/vim-liquid
+[submodule "pack/syntax/start/blade"]
+	path = pack/syntax/start/blade
+	url = https://github.com/jwalton512/vim-blade
+[submodule "pack/syntax/start/json"]
+	path = pack/syntax/start/json
+	url = https://github.com/elzr/vim-json
+[submodule "pack/syntax/start/jsx"]
+	path = pack/syntax/start/jsx
+	url = https://github.com/MaxMEllon/vim-jsx-pretty
+[submodule "pack/syntax/start/markdown"]
+	path = pack/syntax/start/markdown
+	url = https://github.com/plasticboy/vim-markdown
+[submodule "pack/syntax/start/php"]
+	path = pack/syntax/start/php
+	url = https://github.com/StanAngeloff/php.vim
+[submodule "pack/syntax/start/scss"]
+	path = pack/syntax/start/scss
+	url = https://github.com/cakebaker/scss-syntax.vim
+[submodule "pack/syntax/start/sh"]
+	path = pack/syntax/start/sh
+	url = https://github.com/arzg/vim-sh
+[submodule "pack/syntax/start/svelte"]
+	path = pack/syntax/start/svelte
+	url = https://github.com/leafOfTree/vim-svelte-plugin
+[submodule "pack/syntax/start/twig"]
+	path = pack/syntax/start/twig
+	url = https://github.com/lumiliet/vim-twig
+[submodule "pack/syntax/start/vue"]
+	path = pack/syntax/start/vue
+	url = https://github.com/posva/vim-vue
+[submodule "pack/syntax/start/javascript"]
+	path = pack/syntax/start/javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule "pack/colours/opt/everforest"]
+	path = pack/colours/opt/everforest
+	url = https://github.com/sainnhe/everforest
+[submodule "pack/editing/start/quickscope"]
+	path = pack/editing/start/quickscope
+	url = https://github.com/unblevable/quick-scope
+[submodule "pack/editing/start/mucomplete"]
+	path = pack/editing/start/mucomplete
+	url = https://github.com/lifepillar/vim-mucomplete
+[submodule "pack/editing/start/sneak"]
+	path = pack/editing/start/sneak
+	url = https://github.com/justinmk/vim-sneak
+[submodule "pack/syntax/start/targets"]
+	path = pack/syntax/start/targets
+	url = https://github.com/wellle/targets.vim
+[submodule "pack/git/start/signify"]
+	path = pack/git/start/signify
+	url = https://github.com/mhinz/vim-signify
