@@ -20,7 +20,7 @@ git submodule update --init --recursive
 ### Adding a Plugin
 ```
 cd ~/.vim
-git submodule add https://github.com/path/to/plugin.git pack/plugin-category/plugin-name/opt
+git submodule add https://github.com/**/plugin.git pack/plugin-category/plugin-name/opt
 ```
 Add the following to your `vimrc`:
 ```
