@@ -52,3 +52,9 @@
 [submodule "pack/git/start/signify"]
 	path = pack/git/start/signify
 	url = https://github.com/mhinz/vim-signify
+[submodule "pack/search/start/fzf"]
+	path = pack/search/start/fzf
+	url = https://github.com/junegunn/fzf.git
+[submodule "pack/search/start/fzf.vim"]
+	path = pack/search/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git

@@ -3,7 +3,7 @@ packadd! everforest
 
 
 " Variables
-let g:everforest_background = 'soft'
+let g:everforest_background = 'hard'
 let g:sneak#label = 1
 let g:mucomplete#enable_auto_at_startup = 1
 let g:comment_strings = {
@@ -63,6 +63,7 @@ set nowb
 set noswapfile
 set undofile
 set undodir=~/.vim/undo
+set updatetime=100
 
 if has('termguicolors')
   set termguicolors
@@ -91,13 +92,21 @@ set statusline+=\ %y
 set statusline+=\ %l:%c
 set statusline+=\ 
 
+if executable("fzf")
+    set rtp+=~/.fzf
+endif
+
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading
 endif
 
 
+" Force filetypes
+au BufNewFile,BufRead *.astro set syntax=html
+
+
 " Maps
-nnoremap <leader>rc :source ~/.vimrc<CR>
+nnoremap <leader>rc :source ~/.vim/vimrc<CR>
 nnoremap <leader>h :help<space>
 nnoremap <leader>cl :setlocal cursorcolumn! cursorline!<CR>
 nnoremap <CR> :noh<CR><CR>
@@ -106,7 +115,16 @@ nnoremap <CR> :noh<CR><CR>
 "noremap <left> <nop>
 "noremap <right> <nop>
 
-nnoremap <silent> <leader>b :call setqflist(getbufinfo({'buflisted':1})) \| copen<CR>
+if executable("fzf")
+    nnoremap <leader>f :GFiles<CR>
+    nnoremap <leader>af :Files<CR>
+    nnoremap <leader>b :Buffers<CR>
+    nnoremap <leader>sp :Rg<CR>
+else
+    nnoremap <leader>f :find<space>
+    nnoremap <leader>b :call setqflist(getbufinfo({'buflisted':1})) \| copen<CR>
+endif
+
 nnoremap <leader>cb :bd<CR>
 nnoremap <leader>cB :%bd\|e#\|bd#<CR>
 
@@ -131,42 +149,6 @@ inoremap ' ''<esc>i
 inoremap " ""<esc>i
 
 
-" Small Snippets
-au FileType html,vim,xhtml,xml,liquid,twig,blade,vue,jsx,svelte inoremap < <><esc>i
-
-" JavaScript
-au FileType javascript,vue,jsx,svelte inoremap <buffer> ,if if<space>()<space>{<CR>}<esc>klllli
-au FileType javascript,vue,jsx,svelte inoremap <buffer> ,eif else<space>if<space>()<space>{<CR>}<esc>kllllllllllli
-au FileType javascript,vue,jsx,svelte inoremap <buffer> ,el else<space>{<CR>}<esc>O
-au FileType javascript,vue,jsx,svelte inoremap <buffer> ,log console.log()<esc>i
-au FileType javascript,vue,jsx,svelte inoremap <buffer> ,func const<space><space>=<space>()<space>=><space>{<CR>}<esc>klllllli
-
-" HTML
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,di <div></div><esc>hhhhhi<CR><esc>O
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,cdi <div class=""></div><esc>hhhhhi<CR><esc>kllllllllllllli
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,h1 <h1></h1><esc>hhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,ch1 <h1<space>class=""></h1><esc>hhhhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,h2 <h2></h2><esc>hhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,ch2 <h2<space>class=""></h2><esc>hhhhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,h3 <h3></h3><esc>hhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,ch3 <h3<space>class=""></h3><esc>hhhhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,pa <p></p><esc>hhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,cpa <p<space>class=""></p><esc>hhhi<CR><esc>kllllllllllli
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,sp <span></span><esc>hhhhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,csp <span<space>class=""></span><esc>hhhhhhhhi
-au FileType html,liquid,twig,blade,vue,jsx,svelte inoremap <buffer> ,an <a<space>href=""></a><esc>hhhhhi
-
-" Liquid/Twig
-au FileType liquid,twig inoremap <buffer> ,if {%<space>if<space><space>%}<CR>{%<space>endif<space>%}<esc>%kllllla
-au FileType liquid,twig inoremap <buffer> ,el {%<space>else<space>%}<esc>o
-au FileType liquid inoremap <buffer> ,eif {%<space>elsif<space><space>%}<esc>hhi
-au FileType twig inoremap <buffer> ,eif {%<space>elseif<space><space>%}<esc>hhi
-au FileType liquid,twig inoremap <buffer> ,in {%<space>include<space>''<space>%}<esc>hhhi
-au FileType liquid inoremap <buffer> ,re {%<space>render<space>''<space>%}<esc>hhhi
-au FileType liquid inoremap <buffer> ,as {%<space>assign<space><space>%}<esc>hhi
-au FileType twig inoremap <buffer> ,se {%<space>set<space><space>%}<esc>hhi
-
-
 " Toggle File Explorer
 function ToggleNetrw()
     if exists("g:netrw_buffer") && bufexists(g:netrw_buffer)
@@ -176,41 +158,6 @@ function ToggleNetrw()
     endif
 endfunction
 nnoremap <leader>e :call ToggleNetrw()<CR>
-
-
-" File Search
-function! FZF() abort
-    let l:tempname = tempname()
-    " fzf | awk '{ print $1":1:0" }' > file
-    execute 'silent !fzf --multi ' . '| awk ''{ print $1":1:0" }'' > ' . fnameescape(l:tempname)
-    try
-        execute 'cfile ' . l:tempname
-        redraw!
-    finally
-        call delete(l:tempname)
-    endtry
-endfunction
-command! -nargs=* Files call FZF()
-
-if executable("fzf")
-    nnoremap <leader>f :Files<cr>
-else
-    nnoremap <leader>f :find<space>
-endif
-
-
-" Project Search
-function! Grep(...)
-    return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
-endfunction
-command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
-augroup quickfix
-    autocmd!
-    autocmd QuickFixCmdPost cgetexpr cwindow
-augroup END
-nnoremap <leader>sp :Grep<space>
-nnoremap <leader>or :copen<CR>
-nnoremap <leader>cr :cclose<CR>
 
 
 " Comment Helper
@@ -282,3 +229,16 @@ noremap <leader>/ :call CommentLine()<CR>
 vnoremap <leader>/ :call CommentSelection()<CR>
 noremap <leader>? :call CommentLine(1)<CR>
 vnoremap <leader>? :call CommentSelection(1)<CR>
+
+
+" Toggle Quickfix lList
+function ToggleQuickfix()
+    let quickfix_state = len(filter(getwininfo(), 'v:val.quickfix && !v:val.loclist'))
+
+    if quickfix_state == 0 
+        copen
+    else
+        cclose
+    endif
+endfunction
+nnoremap <silent> <leader>q :call ToggleQuickfix()<CR>
