@@ -150,6 +150,13 @@ inoremap ' ''<esc>i
 inoremap " ""<esc>i
 
 
+" Auto-close tags
+function CloseTag()
+    return "</" . split(matchstr(getline('.'), '<\zs[^<]\+\ze>'), " ")[0] . ">"
+endfunction
+inoremap <expr> </ CloseTag()
+ 
+
 " Toggle File Explorer
 function ToggleNetrw()
     if exists("g:netrw_buffer") && bufexists(g:netrw_buffer)
