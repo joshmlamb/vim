@@ -63,7 +63,7 @@ set nowb
 set noswapfile
 set undofile
 set undodir=~/.vim/undo
-set updatetime=100
+set updatetime=150
 
 if has('termguicolors')
   set termguicolors
