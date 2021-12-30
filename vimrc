@@ -142,7 +142,8 @@ nnoremap <leader>k :m .-2<CR>==
 
 inoremap {<CR> {<CR>}<esc>O
 inoremap { {}<esc>i
-inoremap {{ {{  }}<esc>hhi
+inoremap {{ {{  }}<esc>2hi
+inoremap {% {%  %}<esc>2hi
 inoremap ( ()<esc>i
 inoremap [ []<esc>i
 inoremap ' ''<esc>i
